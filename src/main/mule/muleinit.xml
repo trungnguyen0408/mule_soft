@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="muleinitFlow" doc:id="bef9b988-d365-462c-965c-5784c7c93290" >
-		<http:listener doc:name="Listener" doc:id="b1b295f1-f249-40c3-8b89-d13743ebbcb6" config-ref="HTTP_Listener_config" path="/mule"/>
-		<set-payload value="value" doc:name="Set Payload" doc:id="e775591e-0d3d-433b-a69f-577ee92bad47" />
+		<http:listener doc:name="Listener" doc:id="b1b295f1-f249-40c3-8b89-d13743ebbcb6" config-ref="HTTP_Listener_config" path="/mule/{id}"/>
+		<ee:transform doc:name="Transform Message" doc:id="7460a7ef-9c82-4ab3-86eb-ff6c0539d5a3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "id": attributes.uriParams."id",
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="49228a28-9547-4030-a7fc-eec32b56b158" message='#[output application/java&#10;---&#10;"Username: " ++ Mule::p("secure::account.username")&#10;++ " - " ++&#10;"Password: " ++ Mule::p("secure::account.password")]'/>
 	</flow>
 </mule>
