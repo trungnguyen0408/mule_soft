@@ -1,0 +1,101 @@
+#%RAML 1.0
+title: User Information
+baseUri: http://jsonplaceholder.typicode.com
+version: 1.0
+
+traits:
+ token-required:
+  headers:
+   bearer-token:
+    type: string
+    required: true
+/users:
+    description: get by filter of users 
+    get:
+      is: [token-required]
+      queryParameters:
+        limit:
+          type: number
+          displayName: Page Limit of users
+          description: Limit user
+          example: 20
+          required: true
+        page:
+          displayName: Page Index
+          description: Index of page
+          type: number
+          example: 1
+          required: true
+        code:
+          displayName: Code
+          description: Code of user
+          type: string
+          example: "001"
+          required: false
+        name:
+          displayName: Name
+          description: Name of user
+          type: string
+          example: "Nam"
+          required: false
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                [{"ID":"1", "code": "001","name": "Khanh"}, {"ID":"2", "code": "002","name": "Quan"}]               
+        400:
+          body:
+            application/json:
+              example: |
+                 {"message": "Get users failed!"}
+/user:
+  post:
+    is: [token-required]
+    body:
+      application/json:
+        example: |
+         {"ID":"1", "code":"001","name":"Tuan"}
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+             {"message": "Created user successful!"}
+          
+/user/{ID}:
+  uriParameters:
+   ID:
+     description: |
+        ID of the Student
+     type: string
+     example: "1"
+  get:
+    is: [token-required]
+    description: get user by id
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {"ID":"1", "code": "001","name": "Khanh"}
+  delete:
+    is: [token-required]
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {"message": "user deleted!"}
+  put:
+    is: [token-required]
+    body:
+      application/json:
+        example: |
+         {"code":"001","name":"Tuan"}
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {"message": "Edited user successful!"}
