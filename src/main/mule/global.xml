@@ -14,6 +14,5 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<global-property doc:name="Global Property" doc:id="735e1a52-f346-4f92-97c7-cd745d19a584" name="env" value="local" />
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="4c178cdd-7d2e-4192-b5be-3ee514ff8d5d" file="secure/${env}.secure.properties" key="${secure.key}" />
 	<global-property doc:name="Global Property" doc:id="f71d6dd4-ec74-4466-ae2f-e437dd57f96d" name="secure.key" value="CF6785F3B58BF5F4B82981331ACE22CD" />
-	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="fc8f632e-8a83-4071-9df9-9ac5dee6d720" flowRef="muleinitFlow" />
 	
 </mule>
